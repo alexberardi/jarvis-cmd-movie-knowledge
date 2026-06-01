@@ -1,0 +1,59 @@
+schema_version: 1
+name: movie_knowledge
+display_name: Movie Knowledge
+description: >-
+  Look up a movie by name and get a rich inbox card with synopsis, cast,
+  director, and similar films. Each actor/director/similar film is tappable
+  in the mobile app to drill one level deeper (filmography, related films).
+  Powered by TMDB.
+version: 0.1.0
+min_jarvis_version: 0.9.0
+license: MIT
+author:
+  github: alexberardi
+
+categories:
+  - entertainment
+platforms:
+  - darwin
+  - linux
+keywords:
+  - movie
+  - movies
+  - film
+  - imdb
+  - tmdb
+  - actor
+  - actors
+  - cast
+  - director
+  - synopsis
+  - movie crawl
+
+components:
+  - type: command
+    name: movie_knowledge
+    path: commands/movie_knowledge/command.py
+
+packages:
+  - name: httpx
+
+secrets:
+  - key: TMDB_API_KEY
+    scope: integration
+    value_type: string
+    description: TMDB v3 API key (free; sign up at themoviedb.org/settings/api)
+    required: true
+    is_sensitive: true
+    friendly_name: TMDB API Key
+
+  - key: MOVIE_KNOWLEDGE_PUSH_NOTIFICATIONS
+    scope: integration
+    value_type: bool
+    description: >-
+      Send a push notification to your phone when a movie crawl card lands
+      in the inbox. Defaults to off — the card is always in your inbox; the
+      push just decides whether your phone buzzes.
+    required: false
+    is_sensitive: false
+    friendly_name: Push notifications
