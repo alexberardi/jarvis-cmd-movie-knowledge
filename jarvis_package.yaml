@@ -1,11 +1,11 @@
 schema_version: 1
-name: movie_knowledge
-display_name: Movie Knowledge
+name: entertainment_knowledge
+display_name: Entertainment Knowledge
 description: >-
-  Look up a movie by name and get a rich inbox card with synopsis, cast,
-  director, and similar films. Each actor/director/similar film is tappable
-  in the mobile app to drill one level deeper (filmography, related films).
-  Powered by TMDB.
+  Look up a movie or TV show by name and get a rich inbox card with synopsis,
+  cast, director (or creators, for TV), and similar titles. Each actor /
+  director / creator / similar title is tappable in the mobile app to drill
+  one level deeper (filmography, related titles). Powered by TMDB.
 version: 0.1.0
 min_jarvis_version: 0.9.0
 license: MIT
@@ -21,19 +21,27 @@ keywords:
   - movie
   - movies
   - film
+  - tv
+  - tv show
+  - tv series
+  - show
+  - shows
+  - series
+  - television
   - imdb
   - tmdb
   - actor
   - actors
   - cast
   - director
+  - creator
   - synopsis
-  - movie crawl
+  - imdb crawl
 
 components:
   - type: command
-    name: movie_knowledge
-    path: commands/movie_knowledge/command.py
+    name: entertainment_knowledge
+    path: commands/entertainment_knowledge/command.py
 
 packages:
   - name: httpx
@@ -47,13 +55,13 @@ secrets:
     is_sensitive: true
     friendly_name: TMDB API Key
 
-  - key: MOVIE_KNOWLEDGE_PUSH_NOTIFICATIONS
+  - key: ENTERTAINMENT_KNOWLEDGE_PUSH_NOTIFICATIONS
     scope: integration
     value_type: bool
     description: >-
-      Send a push notification to your phone when a movie crawl card lands
-      in the inbox. Defaults to off — the card is always in your inbox; the
-      push just decides whether your phone buzzes.
+      Send a push notification to your phone when a movie or TV crawl card
+      lands in the inbox. Defaults to off — the card is always in your inbox;
+      the push just decides whether your phone buzzes.
     required: false
     is_sensitive: false
     friendly_name: Push notifications

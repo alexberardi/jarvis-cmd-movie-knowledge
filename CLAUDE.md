@@ -1,6 +1,6 @@
-# Movie Knowledge
+# Entertainment Knowledge
 
-Movie Knowledge package for Jarvis
+Entertainment Knowledge package for Jarvis (movies + TV via TMDB)
 
 ## Development
 
@@ -17,14 +17,14 @@ jdt deploy local .      # Install to local node
 
 This is a Jarvis package with the following components:
 
-- **movie_knowledge** — Voice command (IJarvisCommand) (`commands/movie_knowledge/command.py`)
+- **entertainment_knowledge** — Voice command (IJarvisCommand) (`commands/entertainment_knowledge/command.py`)
 
 ## Key Rules
 
 - **Logging**: Use the `try: from jarvis_log_client` pattern (see existing stubs)
 - **Errors**: Never raise from `run()` — return `CommandResponse.error_response()` or `DeviceControlResult(success=False, error="...")`
 - **Data access**: Use `JarvisStorage` for secrets and persistent data, never raw SQLite/SQLAlchemy
-- **Shared code**: If you add shared modules, name the directory `movie_knowledge_shared/` (not `shared/`, `lib/`, `helpers/` — those collide on sys.path after install)
+- **Shared code**: If you add shared modules, name the directory `entertainment_knowledge_shared/` (not `shared/`, `lib/`, `helpers/` — those collide on sys.path after install)
 - **`context_data["message"]`**: This key is what gets spoken aloud by TTS
 
 ## Manifest
@@ -57,7 +57,7 @@ CommandResponse.follow_up_response(context_data={"message": "what else?"})
 ### JarvisStorage
 ```python
 from jarvis_command_sdk import JarvisStorage
-storage = JarvisStorage("movie_knowledge")
+storage = JarvisStorage("entertainment_knowledge")
 api_key = storage.get_secret("MY_API_KEY", scope="integration")
 storage.save(key="cache", data={"result": "value"})
 data = storage.get(key="cache")
