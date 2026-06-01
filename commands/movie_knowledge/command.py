@@ -233,8 +233,11 @@ def _post_node_inbox_item(payload: dict) -> str | None:
     """POST a rich inbox item to CC's /api/v0/node/inbox-item endpoint.
 
     Node-authed with X-API-Key. The caller fills in everything except
-    `create_push_notification`, which is set here from the user's setting
-    (default off — opt-in via mobile UI).
+    ``create_push_notification`` (read here from the user's setting) and
+    ``target_type`` (defaults to "user" when the caller supplies a
+    user_id — voice flow has a known speaker, callback flow has the
+    tapping user, so the push should buzz only their phone, not the
+    whole household). The caller can override either by passing it in.
 
     Returns the inbox item id on success or None if anything fails.
     Failure is logged; the command keeps going so the user still gets a
@@ -249,7 +252,12 @@ def _post_node_inbox_item(payload: dict) -> str | None:
         logger.warning("Cannot post inbox item — node credentials not available")
         return None
     node_id, api_key = creds
-    payload = {**payload, "create_push_notification": _push_enabled()}
+    inferred_target = "user" if payload.get("user_id") else "household"
+    payload = {
+        "create_push_notification": _push_enabled(),
+        "target_type": inferred_target,
+        **payload,
+    }
     try:
         resp = httpx.post(
             f"{cc_url.rstrip('/')}/api/v0/node/inbox-item",
